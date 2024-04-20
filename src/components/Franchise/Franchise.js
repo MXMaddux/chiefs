@@ -14,8 +14,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import images from "./images";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
@@ -90,7 +88,12 @@ const Franchise = () => {
                 />
                 <Typography variant="body1">{img.p}</Typography>
                 <Typography variant="h6">{img.h2}</Typography>
-                <Typography variant="subtitle1">{img.h6}</Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ marginBottom: isSmallScreen ? "16px" : 0 }}
+                >
+                  {img.h6}
+                </Typography>
               </Box>
             </SwiperSlide>
           ))}
