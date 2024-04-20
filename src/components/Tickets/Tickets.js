@@ -40,8 +40,8 @@ const styles = {
   btn: {
     backgroundColor: theme.palette.red,
     color: theme.palette.white,
-    margin: theme.spacing(1),
-    width: "50%", // Full width buttons on small screens
+    margin: { xs: "8px", s: "8px", md: "16px" },
+    width: { xs: "100%", md: "50%" },
     mt: "32px",
   },
 };
@@ -58,7 +58,7 @@ const Tickets = () => {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+                fontSize: { xs: "1rem", sm: "2.5rem", md: "3rem" },
                 fontWeight: 700,
                 flexWrap: "nowrap",
                 mb: "24px",
@@ -70,10 +70,10 @@ const Tickets = () => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: { xs: "column", md: "row" },
+                flexDirection: { xs: "column", sm: "column", md: "row" },
                 justifyContent: "center",
                 alignItems: "center",
-                width: "50%",
+                width: { xs: "100", sm: "100%", md: "50%" },
               }}
             >
               <Button sx={styles.btn}>
