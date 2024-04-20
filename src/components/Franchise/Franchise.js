@@ -62,7 +62,7 @@ const Franchise = () => {
         <Swiper
           spaceBetween={10}
           slidesPerView={isSmallScreen ? 1 : 2}
-          navigation
+          navigation={false}
           pagination={{ clickable: true }}
           onSwiper={(swiper) => setActiveStep(swiper.activeIndex)}
           onSlideChange={handleSwiperChange}
@@ -90,7 +90,7 @@ const Franchise = () => {
                 <Typography variant="h6">{img.h2}</Typography>
                 <Typography
                   variant="subtitle1"
-                  sx={{ marginBottom: isSmallScreen ? "16px" : 0 }}
+                  sx={{ marginBottom: { xs: "16px", sm: "16px", md: 0 } }}
                 >
                   {img.h6}
                 </Typography>
