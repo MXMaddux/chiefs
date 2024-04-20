@@ -68,10 +68,10 @@ const PhotoNewsBlock = () => {
     <Box sx={styles.section}>
       <Paper variant="elevation" elevation={3} sx={styles.paper}>
         <Swiper
-          modules={[Navigation, Autoplay]} // Remove Pagination from here
+          modules={[Navigation, Autoplay]}
           spaceBetween={50}
           slidesPerView={1}
-          navigation
+          navigation={false} // Set navigation to false to remove overlay arrows
           autoplay={{ delay: 2500 }}
           onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}
         >
