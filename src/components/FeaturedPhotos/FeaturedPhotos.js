@@ -61,7 +61,7 @@ const FeaturedPhotos = () => {
           modules={[Navigation, Autoplay]}
           spaceBetween={50}
           slidesPerView={1}
-          navigation
+          navigation={false}
           autoplay={{ delay: 2500 }}
           onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}
         >
