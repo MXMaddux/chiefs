@@ -43,6 +43,7 @@ const CommunitySpotlight = () => {
           borderBottom: "1px solid black",
           margin: "0 auto",
           display: "flex",
+          marginBottom: "8px",
         }}
       >
         <Typography
@@ -50,7 +51,7 @@ const CommunitySpotlight = () => {
           sx={{
             fontWeight: 700,
             borderBottom: "3px solid black",
-            width: "232px",
+            width: "248px",
           }}
         >
           Community Spotlight

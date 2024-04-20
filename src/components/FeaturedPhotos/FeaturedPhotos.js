@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Box, Paper, Button, MobileStepper, Typography } from "@mui/material";
-import SwipeableViews from "react-swipeable-views";
+import { Swiper, SwiperSlide } from "swiper/react";
+// import { Pagination, Autoplay } from "swiper";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css"; // Core Swiper styles
+import "swiper/css/navigation"; // Navigation styles
+import "swiper/css/pagination"; // Pagination styles
+import "swiper/css/autoplay"; // Autoplay styles
+
+import { Box, Paper, Button, Typography, MobileStepper } from "@mui/material";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import theme from "../../theme";
@@ -36,18 +43,9 @@ const FeaturedPhotos = () => {
       <Box
         sx={{ width: "95%", borderBottom: "1px solid black", margin: "0 auto" }}
       >
-        <Box sx={{ width: "184px", borderBottom: "3px solid black" }}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 700,
-
-              marginBottom: "8px",
-            }}
-          >
-            Featured Photos
-          </Typography>
-        </Box>
+        <Typography variant="h5" sx={{ fontWeight: 700, marginBottom: "8px" }}>
+          Featured Photos
+        </Typography>
       </Box>
       <Paper
         variant="elevation"
@@ -55,45 +53,54 @@ const FeaturedPhotos = () => {
         sx={{
           width: "100%",
           overflow: "hidden",
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
+        <Swiper
+          modules={[Navigation, Autoplay]}
+          spaceBetween={50}
+          slidesPerView={1}
+          navigation
+          autoplay={{ delay: 2500 }}
+          onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}
         >
           {pairedImages.map((pair, index) => (
-            <div
+            <SwiperSlide
               key={index}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                width: "100%",
-              }}
+              style={{ display: "flex", justifyContent: "center" }}
             >
               {pair.map((img, imgIndex) => (
                 <Box
                   key={imgIndex}
-                  sx={{ width: "50%", textAlign: "center", padding: 2 }}
+                  sx={{ width: "50%", textAlign: "left", padding: 2 }}
                 >
                   <img
                     src={img.img}
-                    alt={`random pic selection`}
+                    alt={`featured pic ${imgIndex}`}
                     style={{ width: "100%", height: "auto" }}
                   />
-                  <Typography variant="body1">{img.p}</Typography>
-                  <Typography variant="h6">{img.h2}</Typography>
-                  <Typography variant="subtitle1">{img.h6}</Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ fontWeight: 700, color: theme.palette.darkGray }}
+                  >
+                    {img.p}
+                  </Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 900 }}>
+                    {img.h2}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: 500, color: theme.palette.darkGray }}
+                  >
+                    {img.h6}
+                  </Typography>
                   <Typography variant="body2">{img.body1}</Typography>
                 </Box>
               ))}
-            </div>
+            </SwiperSlide>
           ))}
-        </SwipeableViews>
+        </Swiper>
         <MobileStepper
           steps={maxSteps}
           position="static"
@@ -147,6 +154,8 @@ const FeaturedPhotos = () => {
             fontSize: "13px",
             fontWeight: 500,
             "&:hover": { cursor: "pointer" },
+            textAlign: "center",
+            marginBottom: "16px",
           }}
         >
           MORE PHOTOS {">"}

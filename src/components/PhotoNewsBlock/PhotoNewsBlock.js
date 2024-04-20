@@ -1,14 +1,37 @@
 import React from "react";
-import { Paper, Box } from "@mui/material";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import MobileStepper from "@mui/material/MobileStepper";
-import Button from "@mui/material/Button";
+import { Box, Paper, MobileStepper, Button } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css"; // Import Swiper CSS
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import DraftHistory from "../../assets/img/DraftHistory.webp";
 import CarsonWentz from "../../assets/img/carsonWentz.webp";
 import theme from "../../theme";
+
+const styles = {
+  slide: {
+    height: "auto",
+    display: "block",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+  paper: {
+    width: "100%",
+    maxWidth: "51.5rem",
+    height: "auto",
+    margin: "0 auto",
+  },
+  section: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    maxWidth: "1279px",
+    margin: "0 auto",
+  },
+};
 
 const images = [
   {
@@ -25,47 +48,9 @@ const images = [
   },
 ];
 
-const styles = {
-  slide: {
-    padding: 15,
-    minHeight: 100,
-    color: "#fff",
-  },
-  slide1: {
-    // Removed fixed width and height, using backgroundSize contain will maintain aspect ratio
-    backgroundImage: `url(${images[0].img})`,
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-  },
-  slide2: {
-    // Same adjustments as slide1
-    backgroundImage: `url(${images[1].img})`,
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-  },
-  paper: {
-    // Adjust width to be responsive
-    width: "100%", // Use 100% width for smaller screens
-    maxWidth: "51.5rem", // Maximum width to control size on larger screens
-    height: "auto", // Adjust height to be automatic
-    margin: "0 auto",
-  },
-  section: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%", // Ensure section takes up 100% width
-    maxWidth: "1279px", // Control maximum width
-    margin: "0 auto",
-  },
-};
-
 const PhotoNewsBlock = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = 2;
-
-  const AutoPlaySwipeableViews = autoPlay(SwipeableViews); // Total number of slides
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -78,80 +63,71 @@ const PhotoNewsBlock = () => {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
+
   return (
     <Box sx={styles.section}>
-      <Paper variant={"elevation"} elevation={3} sx={styles.paper}>
-        <AutoPlaySwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
+      <Paper variant="elevation" elevation={3} sx={styles.paper}>
+        <Swiper
+          modules={[Navigation, Autoplay]} // Remove Pagination from here
+          spaceBetween={50}
+          slidesPerView={1}
+          navigation
+          autoplay={{ delay: 2500 }}
+          onSlideChange={(swiper) => setActiveStep(swiper.activeIndex)}
         >
-          {images.map((step, index) => (
-            <div key={index}>
-              {Math.abs(activeStep - index) <= 2 ? (
-                <Box
-                  component="img"
-                  sx={{
-                    height: "auto",
-                    display: "block",
-                    width: "51.5rem",
-                    overflow: "hidden",
-
-                    background: theme.palette.white,
-                  }}
-                  src={step.img}
-                  alt={"photo"}
-                />
-              ) : null}
-              <Box
-                sx={{
-                  width: "37.5rem",
-                  height: "18.75rem",
-                  marginLeft: "32px",
-                }}
-              >
-                <h1 style={{ margin: "16px 0 -16px 48px" }}>{step.h1}</h1>
-                <br />
-                <h6 style={{ margin: "16px 0 -32px 48px", fontSize: "18px" }}>
-                  {step.h6}
-                </h6>
-                <br />
-                <p style={{ margin: "16px 0 -32px 48px" }}>{step.body1}</p>
+          {images.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img src={item.img} alt="news" style={styles.slide} />
+              <Box sx={{ margin: "0 32px" }}>
+                <h1>{item.h1}</h1>
+                <h6>{item.h6}</h6>
+                <p>{item.body1}</p>
               </Box>
-            </div>
+            </SwiperSlide>
           ))}
-        </AutoPlaySwipeableViews>
+        </Swiper>
         <MobileStepper
-          sx={{ width: "51.5rem", marginTop: "-72px" }}
           steps={maxSteps}
           position="static"
           activeStep={activeStep}
+          sx={{
+            width: "100%",
+            "& .MuiMobileStepper-dot": {
+              backgroundColor: theme.palette.gray, // Hide default dots
+              width: "20px",
+              height: "10px",
+              borderRadius: 0,
+              margin: "0 2px",
+              "&.MuiMobileStepper-dotActive": {
+                backgroundColor: "red", // Color for the active rectangle
+                transform: "scale(1)", // Optional: Increase size for active rectangle
+              },
+            },
+            "& .MuiMobileStepper-dots": {
+              transform: "scaleX(2)", // Stretch the dot container to form rectangles
+            },
+          }}
           nextButton={
             <Button
-              sx={{ color: theme.palette.black }}
-              size="small"
+              size="large"
               onClick={handleNext}
               disabled={activeStep === maxSteps - 1}
             >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft sx={{ fontSize: "32px" }} />
-              ) : (
-                <KeyboardArrowRight sx={{ fontSize: "32px" }} />
+              {theme.direction !== "rtl" && (
+                <KeyboardArrowRight
+                  sx={{ fontSize: "40px", color: theme.palette.black }}
+                />
               )}
             </Button>
           }
           backButton={
             <Button
-              size="small"
+              size="large"
               onClick={handleBack}
               disabled={activeStep === 0}
-              sx={{ color: theme.palette.black }}
             >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight sx={{ fontSize: "32px" }} />
-              ) : (
-                <KeyboardArrowLeft sx={{ fontSize: "32px" }} />
+              {theme.direction !== "rtl" && (
+                <KeyboardArrowLeft sx={{ fontSize: "40px" }} />
               )}
             </Button>
           }
