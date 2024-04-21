@@ -20,10 +20,11 @@ const DownloadApps = () => {
         borderTop: `1px solid ${theme.palette.white}`,
       }}
     >
-      <Box>
+      <Box sx={{ margin: "4px 0 8px" }}>
         <span
           style={{
-            color: theme.palette.white,
+            // color: theme.palette.gray,
+            color: "rgba(255, 255, 255, 0.5)",
             fontWeight: 300,
             fontSize: "85%",
           }}
@@ -31,16 +32,21 @@ const DownloadApps = () => {
           DOWNLOAD APPS
         </span>
       </Box>
-      <Box sx={{ display: "flex", "&:hover": { cursor: "pointer" } }}>
+      <Box
+        sx={{
+          display: "flex",
+          "&:hover": { cursor: "pointer" },
+        }}
+      >
         <img
           src={appStore}
           alt="App Store"
-          style={{ width: "100px", marginRight: "16px" }}
+          style={{ width: "100px", marginRight: "16px", marginBottom: "16px" }}
         />
         <img
           src={googlePlay}
           alt="Google Play Store"
-          style={{ width: "115px" }}
+          style={{ width: "115px", marginBottom: "16px" }}
         />
       </Box>
     </Box>
